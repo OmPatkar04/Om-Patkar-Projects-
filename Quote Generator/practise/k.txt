@@ -1,0 +1,55 @@
+import express from "express";
+import bodyParser from "body-parser";
+
+const port = 4000;
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+    let apiQuotes = [];
+    let firstName = adj[Math.floor(Math.random() * adj.length)];
+
+    const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
+
+    async function getQuotes() {
+        // Link for json
+        try{
+            const response = await fetch(apiUrl);
+            apiQuotes = await response.json();
+    
+            // console.log(apiQuotes);
+            // console.log(apiQuotes[12]);
+            await newQuote();
+            res.render("index.ejs", {
+                bandName: firstName,
+                randomQuotes: getQuotes(), // Display the second quote from apiQuotes array
+            });
+        }catch(error){
+            //Catch Error Here
+            // alert(error);
+        }
+    }
+    
+    async function newQuote(){
+        const quote = await apiQuotes[Math.floor(Math.random()*apiQuotes+1)];
+        return quote;
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
+
+
+
+const adj = [
+    "abandoned",
+    "able",
+    "absolute",
+    "adorable"
+];
+const noun = [
+    "aardvark",
+    "abacus"
+];
